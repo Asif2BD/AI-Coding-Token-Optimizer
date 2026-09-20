@@ -1,5 +1,12 @@
 # Changelog
 
+## v1.0.1 — 2026-09-20
+
+- Explain the repeated-file-discovery problem and concrete map structure.
+- Make onboarding agent-neutral and GitHub link-first, with standalone fallback.
+- Separate registry guidance and clarify ongoing maintenance and benefits.
+
+
 ## v1.0.0 — 2026-09-20
 
 - Rebrand user-supplied Workspace Map as AI Coding Token Optimizer.

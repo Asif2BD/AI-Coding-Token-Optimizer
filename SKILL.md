@@ -1,7 +1,7 @@
 ---
 name: ai-coding-token-optimizer
-description: Reduce unnecessary AI coding context by creating or refreshing concise project navigation maps. Use when asked to optimize coding context, reduce repeated repository exploration, or help Codex and Claude find the right files. Documentation-only; preserves application code and mandatory instructions.
-version: 1.0.0
+description: Help any repository-capable AI agent spend less time rediscovering files and loading unnecessary context. Create concise project maps for code, content and operations, linked from existing agent instructions. For Codex, Claude Code, OpenClaw and other agents; documentation-only, no application changes.
+version: 1.0.1
 license: MIT
 author: M Asif Rahman
 homepage: https://missiondeck.ai
@@ -9,7 +9,34 @@ homepage: https://missiondeck.ai
 
 # AI Coding Token Optimizer
 
-Give future agents a small, accurate entry point for each area of work. Routers locate authoritative sources; they do not replace those sources.
+## Stop making your agent rediscover your project
+
+For a small change, an AI agent may first search folders, open unrelated files and reread documentation just to work out where the change belongs. Repeating that exploration across tasks uses time and context that could go toward the actual work.
+
+**AI Coding Token Optimizer gives your agent a short, maintained map of the project.** It shows where important code, content and procedures live, so the agent can start in the right area and read what the task needs. It is designed to reduce repeated searching, unnecessary context loading and time spent getting oriented—not to replace understanding the code.
+
+**For ChatGPT Codex, Claude Code, OpenClaw and any other AI agent with project-file access.** OpenClaw is one supported environment, not a requirement. A chat-only assistant needs a connected project or uploaded files; no prompt can grant access on its own.
+
+## What it creates
+
+```text
+Your existing agent instructions
+(AGENTS.md, CLAUDE.md, or your agent’s established entry point)
+  └── Project Map
+      ├── CONTENT.md     → content sources and publishing guidance
+      ├── PRODUCT.md     → application code, components and tests
+      └── OPERATIONS.md  → build, deployment and recovery procedures
+```
+
+These are examples, not a mandatory folder layout. A small project may need just one Map section. A monorepo may use package-level maps. The skill reuses good existing indexes instead of adding clutter.
+
+Each map is a short Markdown document with links and a sentence explaining each destination. It does not move your application files, duplicate the documentation or change application routing.
+
+**Example:** for “change the checkout button,” the agent reads the product map, follows its component and test links, and inspects those files. It still searches and reads more when the map is incomplete or the task requires it.
+
+## Instructions for the agent
+
+The following workflow performs adoption. Navigation maps locate authoritative sources; they do not replace those sources.
 
 ## Start from one request
 

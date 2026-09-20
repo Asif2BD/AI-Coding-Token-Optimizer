@@ -1,8 +1,12 @@
-# One-line adoption prompt
+# GitHub adoption prompt — any repository-capable AI agent
 
-> Use AI Coding Token Optimizer to map this project, preserve existing instructions, and make documentation-only changes.
+## One sentence
 
-Requires the skill to be installed and project access. Without skill installation, use this standalone prompt:
+> Read https://github.com/Asif2BD/AI-Coding-Token-Optimizer and apply its project-mapping workflow to this project, preserving existing instructions and application code.
+
+No skill installation is required. The agent must be able to read this repository and edit the target project. If links cannot be opened, paste the standalone prompt below.
+
+## Standalone prompt
 
 Create or refresh a concise navigation map for this repository so an AI agent can find the right files without loading every document.
 

@@ -1,97 +1,94 @@
 # AI Coding Token Optimizer
 
-[![Version](https://img.shields.io/badge/version-1.0.0-brightgreen.svg)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-1.0.1-brightgreen.svg)](CHANGELOG.md)
 [![MissionDeck](https://img.shields.io/badge/MissionDeck-ai-blueviolet)](https://missiondeck.ai)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE.txt)
 
-Built by MissionDeck.ai · Created by M Asif Rahman · [GitHub](https://github.com/Asif2BD/AI-Coding-Token-Optimizer)
+**A project map for your AI agent. Less rediscovery. More focused work.**
 
-**Spend less context finding files. Keep more room for coding.**
+Created by M Asif Rahman · Built by [MissionDeck.ai](https://missiondeck.ai)
 
-## Start here — choose your setup
+## Stop making your agent rediscover your project
 
-**Using GitHub directly?** Open [GITHUB-PROMPT.md](GITHUB-PROMPT.md), copy the standalone prompt into your coding agent, and open the project you want to optimize. Skill installation is optional.
+For a small change, an AI agent may first search folders, open unrelated files and reread documentation just to work out where the change belongs. Repeating that exploration across tasks uses time and context that could go toward the actual work.
 
-**Using ClawHub?** Install the skill using the command below, then use the one-sentence request. Registry-specific guidance is in [CLAWHUB.md](CLAWHUB.md).
+**AI Coding Token Optimizer gives your agent a short, maintained map of the project.** It shows where important code, content and procedures live, so the agent can start in the right area and read what the task needs. It is designed to reduce repeated searching, unnecessary context loading and time spent getting oriented—not to replace understanding the code.
 
-## One-sentence request
+**For ChatGPT Codex, Claude Code, OpenClaw and any other AI agent with project-file access.** OpenClaw is one supported environment, not a requirement. A chat-only assistant needs a connected project or uploaded files; no prompt can grant access on its own.
 
-After installing the skill, open your project and say:
+## What it creates
 
-> Use AI Coding Token Optimizer to reduce unnecessary project context by creating concise navigation maps, preserving existing instructions and application code.
+```text
+Your existing agent instructions
+(AGENTS.md, CLAUDE.md, or your agent’s established entry point)
+  └── Project Map
+      ├── CONTENT.md     → content sources and publishing guidance
+      ├── PRODUCT.md     → application code, components and tests
+      └── OPERATIONS.md  → build, deployment and recovery procedures
+```
 
-No API key, background service or additional model is required by this package. Your host agent still consumes its normal model usage.
+These are examples, not a mandatory folder layout. A small project may need just one Map section. A monorepo may use package-level maps. The skill reuses good existing indexes instead of adding clutter.
 
-## What it does
+Each map is a short Markdown document with links and a sentence explaining each destination. It does not move your application files, duplicate the documentation or change application routing.
 
-AI Coding Token Optimizer is a portable project-navigation skill for repository-capable AI coding agents. It helps an agent inspect the real project, create concise area maps and connect them to existing AGENTS.md or CLAUDE.md instructions. It does not autonomously manage, build or deploy your application.
+**Example:** for “change the checkout button,” the agent reads the product map, follows its component and test links, and inspects those files. It still searches and reads more when the map is incomplete or the task requires it.
 
-Instead of repeatedly searching an entire codebase, future tasks can start with a small map, then open the relevant source and procedure. Detailed documentation stays where it belongs.
+## Get started with any coding agent
 
-- Adapts to small projects and monorepos.
-- Reuses existing maps and preserves project instructions.
-- Separates editable source, generated output and historical references.
-- Checks relative links and explains uncertainties.
-- Refreshes existing maps rather than producing duplicates.
+1. Open the project you want to optimize in your usual AI agent.
+2. Give the agent access to this repository’s instructions and your project files.
+3. Paste this one-sentence request:
 
-## Install
+> Read https://github.com/Asif2BD/AI-Coding-Token-Optimizer and apply its project-mapping workflow to this project, preserving existing instructions and application code.
+
+The agent inspects your project, creates or refreshes appropriate maps, connects them to its existing project instructions, and checks the links. Review the resulting documentation diff. Then continue asking for your normal project changes—the entry point tells the agent where to start.
+
+**If your agent cannot open GitHub links:** copy the standalone instructions in [GITHUB-PROMPT.md](GITHUB-PROMPT.md) into the agent instead. You do not need to install a skill, use Git commands or create another repository merely to adopt the approach.
+
+## Prefer installing a skill?
+
+For an agent with ClawHub support:
 
 ```sh
 clawhub install ai-coding-token-optimizer
 ```
 
-This installs into the location selected by your ClawHub environment; it does not automatically configure every coding client. For other hosts, place this package in that host’s supported skill directory. See [adoption guide](references/adoption.md). Without skill support, use the [standalone prompt](GITHUB-PROMPT.md).
+Then say: **“Use AI Coding Token Optimizer to map this project.”**
 
-## Example result
+Other clients can use their own supported skill installer with this repository. Installation locations and discovery differ by client; see [adoption notes](references/adoption.md). ClawHub-specific listing text and usage guidance are separate in [CLAWHUB.md](CLAWHUB.md).
 
-```text
-AGENTS.md or CLAUDE.md → Project Map
-  CONTENT.md          → content sources and editorial guidance
-  PRODUCT.md          → code entry points and development guides
-  OPERATIONS.md       → release, verification and recovery guides
-```
+## How it helps over time
 
-These names are examples, not mandatory files. A small project may need only one Map section. Routers are short navigation documents, not application routing code.
+- **Before a change:** the agent uses the relevant map to find likely edit locations and applicable procedures.
+- **During a change:** it reads the actual source it needs; the map is not a substitute for code inspection or mandatory instructions.
+- **When paths change:** the affected map should be updated in the same change.
+- **In a new session:** the project entry point makes the maps discoverable, provided the host reads that entry point.
 
-## Compatibility and limits
+Initial mapping takes work and model usage. Repeated tasks are where avoiding repeated exploration may help most. Time and token savings depend on project size, task and agent behavior; no percentage or subscription-lifetime guarantee has been measured.
 
-Designed for Codex, Claude Code and OpenClaw-style agents that can read Markdown instructions and edit a repository. Client skill discovery and installation differ. This release’s packaging and fixture checks do not prove end-to-end behavior in every client; no cross-client inference benchmark is claimed.
+## What it does not do
 
-Maps may reduce repeated searching and unnecessary context loading. No percentage token savings, speedup or accuracy improvement has been measured. Stale maps can mislead: maintain affected links when paths or ownership change. Existing mandatory context and release gates always apply.
+It does not change model settings, bypass provider limits, modify application code, install dependencies, run a background service or upload project content. It does not require a particular model, API key or paid account. Your chosen agent still has its normal costs and permissions.
 
-## Safety
+## Safety and control
 
-Documentation-only package: no executable scripts, dependency installation, telemetry or network client. When invoked, your agent reads project files and edits navigation Markdown. Review the diff as usual. The skill does not authorize commits, pushes, deployments or publication. See [SECURITY.md](SECURITY.md).
+This package contains Markdown instructions, not an executable optimizer. When invoked, your agent reads selected project files and edits navigation documentation, including the applicable instruction entry point. Existing rules, unrelated edits and release gates must remain intact. Mapping does not authorize committing, pushing or deploying.
 
-## Verification
+Review the diff; undo by reverting only the mapping changes. Never put secrets or private file contents in maps. [SECURITY.md](SECURITY.md) describes the boundaries; [SHA256SUMS.txt](SHA256SUMS.txt) verifies package integrity, not independent safety certification.
 
-```sh
-sha256sum -c SHA256SUMS.txt
-```
+## Documentation
 
-Checksums demonstrate integrity against this manifest, not independent security approval.
-
-## MissionDeck.ai — Your Agent Command Center
-
-Explore [MissionDeck.ai](https://missiondeck.ai) for agent coordination. AI Coding Token Optimizer works independently; no MissionDeck account or connection is required.
-
-## Provenance and license
-
-Adapted from the user-supplied Workspace Map release, developed in project work by M Asif Rahman. Repository navigation and area indexes are established patterns; no exclusive invention of the underlying idea is claimed. Private project files and original screenshots are not included. MIT licensed; see [LICENSE.txt](LICENSE.txt).
+- [GITHUB-PROMPT.md](GITHUB-PROMPT.md): one-sentence request and installation-free standalone prompt.
+- [SKILL.md](SKILL.md): agent execution workflow.
+- [CLAWHUB.md](CLAWHUB.md): registry description and installed-skill usage.
+- [Examples](references/examples.md): small projects, larger repositories and monorepos.
 
 ## More by Asif2BD
 
-- [OpenClaw Token Optimizer](https://clawhub.ai/asif2bd/openclaw-token-optimizer)
-- [ProSkills.md](https://proskills.md)
+- [OpenClaw Token Optimizer](https://clawhub.ai/asif2bd/openclaw-token-optimizer): a separate runtime audit skill. This project focuses on coding-project navigation.
+- [MissionDeck.ai](https://missiondeck.ai): agent coordination; optional and independent of this skill.
+- [ProSkills.md](https://proskills.md): discover AI skills.
 
-## Frequently asked questions
+## License and provenance
 
-**Does it change my model or subscription?** No. It organizes project navigation; it does not alter provider limits, billing, model settings or your code.
-
-**Can I use it anywhere?** With a repository-capable agent that can read and edit your project. A chat-only interface needs files supplied or connected; the prompt does not grant access.
-
-**Does it save tokens immediately?** Initial inspection itself costs context. Benefits depend on repeated use, host behavior and maintaining maps. No savings benchmark is claimed.
-
-**How do I undo it?** Review and revert only its documentation diff, retaining unrelated changes.
-
-**Is this OpenClaw Token Optimizer?** No. That separate skill audits runtime configuration. This skill organizes coding-project context and has no runtime adapter.
+MIT © 2026 M Asif Rahman. Adapted from the user-supplied Workspace Map release. Project indexes are an established pattern; no exclusive invention of the underlying idea is claimed. No private project files or source screenshots are included.
