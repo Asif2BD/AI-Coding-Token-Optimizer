@@ -1,12 +1,12 @@
 # AI Coding Token Optimizer
 
-[![Version](https://img.shields.io/badge/version-1.0.1-brightgreen.svg)](CHANGELOG.md)
-[![MissionDeck](https://img.shields.io/badge/MissionDeck-ai-blueviolet)](https://missiondeck.ai)
+[![Version](https://img.shields.io/badge/version-1.0.2-brightgreen.svg)](CHANGELOG.md)
+[![MissionDeck](https://img.shields.io/badge/ProSkills-md-blueviolet)](https://proskills.md/skills/coding/ai-coding-token-optimizer)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE.txt)
 
 **A project map for your AI agent. Less rediscovery. More focused work.**
 
-Created by M Asif Rahman · Built by [MissionDeck.ai](https://missiondeck.ai)
+Created by M Asif Rahman · Built by [ProSkills.md](https://proskills.md/skills/coding/ai-coding-token-optimizer)
 
 ## Stop making your agent rediscover your project
 
@@ -35,11 +35,13 @@ Each map is a short Markdown document with links and a sentence explaining each 
 
 ## Get started with any coding agent
 
+**[Open the ProSkills homepage](https://proskills.md/skills/coding/ai-coding-token-optimizer)** to copy the adoption prompt in one click or download the release. GitHub hosts source and version history; ClawHub is an additional installation channel.
+
 1. Open the project you want to optimize in your usual AI agent.
 2. Give the agent access to this repository’s instructions and your project files.
 3. Paste this one-sentence request:
 
-> Read https://github.com/Asif2BD/AI-Coding-Token-Optimizer and apply its project-mapping workflow to this project, preserving existing instructions and application code.
+> Read https://proskills.md/downloads/ai-coding-token-optimizer/1.0.2/SKILL.md and apply its project-mapping workflow to this project, preserving existing instructions and application code.
 
 The agent inspects your project, creates or refreshes appropriate maps, connects them to its existing project instructions, and checks the links. Review the resulting documentation diff. Then continue asking for your normal project changes—the entry point tells the agent where to start.
 
@@ -86,7 +88,7 @@ Review the diff; undo by reverting only the mapping changes. Never put secrets o
 ## More by Asif2BD
 
 - [OpenClaw Token Optimizer](https://clawhub.ai/asif2bd/openclaw-token-optimizer): a separate runtime audit skill. This project focuses on coding-project navigation.
-- [MissionDeck.ai](https://missiondeck.ai): agent coordination; optional and independent of this skill.
+- [ProSkills.md](https://proskills.md/skills/coding/ai-coding-token-optimizer): the primary homepage and distribution site for this skill.
 - [ProSkills.md](https://proskills.md): discover AI skills.
 
 ## License and provenance

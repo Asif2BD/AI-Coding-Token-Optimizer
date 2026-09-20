@@ -1,6 +1,6 @@
 # AI Coding Token Optimizer — ClawHub description
 
-Version: 1.0.1
+Version: 1.0.2
 Slug: ai-coding-token-optimizer
 
 ## Stop making your agent rediscover your project
@@ -46,4 +46,4 @@ The first mapping pass uses normal agent context. Later tasks may benefit from l
 
 ## Related projects
 
-OpenClaw Token Optimizer audits runtime settings; this skill maps coding projects. MissionDeck.ai offers optional agent coordination. Find more skills at ProSkills.md. None is required to use this package.
+OpenClaw Token Optimizer audits runtime settings; this skill maps coding projects. ProSkills.md hosts this skill and its adoption prompt. Find more skills at ProSkills.md. None is required to use this package.

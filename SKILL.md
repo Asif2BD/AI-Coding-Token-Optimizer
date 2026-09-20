@@ -1,10 +1,10 @@
 ---
 name: ai-coding-token-optimizer
 description: Help any repository-capable AI agent spend less time rediscovering files and loading unnecessary context. Create concise project maps for code, content and operations, linked from existing agent instructions. For Codex, Claude Code, OpenClaw and other agents; documentation-only, no application changes.
-version: 1.0.1
+version: 1.0.2
 license: MIT
 author: M Asif Rahman
-homepage: https://missiondeck.ai
+homepage: https://proskills.md/skills/coding/ai-coding-token-optimizer
 ---
 
 # AI Coding Token Optimizer

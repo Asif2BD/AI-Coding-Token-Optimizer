@@ -2,7 +2,7 @@
 
 ## One sentence
 
-> Read https://github.com/Asif2BD/AI-Coding-Token-Optimizer and apply its project-mapping workflow to this project, preserving existing instructions and application code.
+> Read https://proskills.md/downloads/ai-coding-token-optimizer/1.0.2/SKILL.md and apply its project-mapping workflow to this project, preserving existing instructions and application code.
 
 No skill installation is required. The agent must be able to read this repository and edit the target project. If links cannot be opened, paste the standalone prompt below.
 

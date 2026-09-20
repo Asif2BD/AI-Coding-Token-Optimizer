@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.0.2 — 2026-09-20
+
+- Make ProSkills the primary homepage with hosted instructions and release downloads.
+
 ## v1.0.1 — 2026-09-20
 
 - Explain the repeated-file-discovery problem and concrete map structure.

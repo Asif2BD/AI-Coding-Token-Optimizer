@@ -18,7 +18,7 @@ class PackageTests(unittest.TestCase):
  def test_identity(self):
   s=(ROOT/'SKILL.md').read_text()
   self.assertIn('name: ai-coding-token-optimizer',s)
-  self.assertIn('version: 1.0.1',s)
+  self.assertIn('version: 1.0.2',s)
  def test_boundaries(self):
   s=(ROOT/'SKILL.md').read_text()
   for phrase in ['documentation-only','CLAUDE.md','AGENTS.md','symlinks','mandatory instructions','rather than creating duplicates']:
