@@ -40,7 +40,7 @@ Do not ask a setup questionnaire when the root is clear. Ask one focused questio
 
 ### 1. Measure
 
-- Record the byte size of every always-loaded file: the entry points, any files they import, and nested instruction files the host auto-loads.
+- Record the byte size of what **each host** loads at session start, and report each host separately; never add them together. For Claude Code that is `CLAUDE.md` or `.claude/CLAUDE.md` plus its `@path` imports. For Codex it is `AGENTS.md`, which doesn't follow imports. Record nested instruction files the host auto-loads per area too.
 - Estimate tokens as bytes ÷ 4.
 - Read those files fully, then inspect the real tree, existing indexes, `git status` and recent history.
 - Sample the source files needed to understand ownership. Use targeted searches, not bulk reads.

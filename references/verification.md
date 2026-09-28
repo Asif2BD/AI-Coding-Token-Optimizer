@@ -4,28 +4,39 @@ Run these from the project root of a Git repository. They only read files. Befor
 
 ## Measure the always-loaded context
 
-This counts the entry points (`CLAUDE.md`, `.claude/CLAUDE.md`, `AGENTS.md`) plus every file they import (`@path` lines, which Claude Code follows, including imports of imports). Run it before and after the change. Imports that resolve outside the project are listed but not read.
+Each host loads its own entry point, so measure **one host at a time** and report each separately. Never add them together.
+- Claude Code reads `CLAUDE.md` (or `.claude/CLAUDE.md`) and follows its `@path` imports, including imports of imports.
+- Codex reads `AGENTS.md` and does not follow imports.
+
+Run this before and after the change. Files that resolve outside the project are listed but not read.
 
 ```python
 import re, pathlib
 root = pathlib.Path('.').resolve()
-todo = [root / p for p in ('CLAUDE.md', '.claude/CLAUDE.md', 'AGENTS.md') if (root / p).is_file()]
-seen, total = set(), 0
-while todo:
-    p = todo.pop().resolve()
-    if p in seen: continue
-    seen.add(p)
-    if root not in p.parents or not p.is_file():
-        print('not read (outside project or missing):', p); continue
-    text = p.read_text(errors='ignore')
-    total += len(text.encode())
-    print(f'{len(text.encode()):>7}  {p.relative_to(root)}')
-    body = re.sub(r'```.*?```|`[^`\n]*`', '', text, flags=re.S)  # imports in code are not imports
-    todo += [p.parent / m for m in re.findall(r'(?<![\w/])@([\w./-]+\.\w+)', body)]
-print(f'{total:>7}  total bytes, about {total // 4} tokens')
+def measure(entries, follow_imports):
+    todo = [root / p for p in entries if (root / p).exists()]
+    seen, total = set(), 0
+    while todo:
+        p = todo.pop(0).resolve()
+        if p in seen: continue
+        seen.add(p)
+        if root not in p.parents or not p.is_file():
+            print('    not read (outside project or missing):', p); continue
+        text = p.read_text(errors='ignore')
+        total += len(text.encode())
+        print(f'  {len(text.encode()):>7}  {p.relative_to(root)}')
+        if follow_imports:
+            body = re.sub(r'```.*?```|`[^`\n]*`', '', text, flags=re.S)  # imports in code are not imports
+            todo += [p.parent / m for m in re.findall(r'(?<![\w/])@([\w./-]+\.\w+)', body)]
+    return total
+for host, entries, follow in (('Claude Code', ('CLAUDE.md', '.claude/CLAUDE.md'), True),
+                              ('Codex', ('AGENTS.md',), False)):
+    print(host)
+    t = measure(entries, follow)
+    print(f'  {t:>7}  bytes loaded every session, about {t // 4} tokens')
 ```
 
-Nested instruction files that the host loads while working inside a subdirectory (such as `app/CLAUDE.md`) count for tasks in that area. Measure them the same way and report them separately.
+Nested instruction files that a host loads while working inside a subdirectory (such as `app/AGENTS.md`) count for tasks in that area. Measure them the same way and report them separately.
 
 ## No-loss check
 
@@ -59,14 +70,15 @@ def destinations(src, text):
 old = open(OLD).read()
 corpus = ''.join(prose(t) for t in docs.values())
 kept = set().union(set(), *(destinations(rel, text) for rel, text in docs.items()))
-terms = set(re.findall(r'`([^`\n]{3,80})`', old)) | {h.strip() for h in re.findall(r'^#{1,6} +(.+)$', prose(old), re.M)}
+old_prose = prose(old)
+terms = set(re.findall(r'`([^`\n]{3,80})`', old_prose)) | {h.strip() for h in re.findall(r'^#{1,6} +(.+)$', old_prose, re.M)}
 lost = sorted(t for t in terms if t not in corpus) + sorted(d for d in destinations(OLD_AT, old) if d not in kept)
 print('\n'.join(lost) or 'nothing lost')
 ```
 
 ## Links and anchors
 
-Pass the files you touched as arguments. Code examples are ignored on both sides: a link inside an example is not checked, and a `# Heading` inside an example is not treated as an anchor. Links that leave the project, such as into a sibling repository cloned beside it, are listed as not checked rather than read or counted as broken. Anchors follow GitHub's slug rule, which lowercases the heading, drops punctuation and turns spaces into hyphens.
+Pass the files you touched as arguments. Code examples are ignored on both sides: a link inside an example is not checked, and a `# Heading` inside an example is not treated as an anchor. Links that leave the project, such as into a sibling repository cloned beside it, are listed as not checked rather than read or counted as broken. Files passed in that are symlinks or outside the project are not read. Anchors follow GitHub's slug rule, including its numbering of repeated headings,, which lowercases the heading, drops punctuation and turns spaces into hyphens.
 
 ```python
 import re, os, sys
@@ -75,6 +87,27 @@ def inside(path):  # never read a symlink or anything outside the project
     return not os.path.islink(path) and os.path.realpath(path).startswith(root + os.sep)
 def prose(path):
     return re.sub(r'```.*?```', '', open(path).read(), flags=re.S)
+def slugs(path):  # GitHub numbers repeated headings: setup, setup-1, setup-2…
+    out, count = set(), {}
+    for line in prose(path).splitlines():
+        if re.match(r'#{1,6} ', line):
+            slug = re.sub(r'[^\w\- ]', '', line.lstrip('#').strip().lower()).replace(' ', '-')
+            n = count.get(slug, 0); count[slug] = n + 1
+            out.add(slug if n == 0 else f'{slug}-{n}')
+    return out
+bad = 0
+for f in sys.argv[1:]:
+    if not inside(f):
+        print('not read (outside project or a symlink):', f); continue
+    for m in re.findall(r'\]\(([^)\s]+)\)', re.sub(r'`[^`\n]*`', '', prose(f))):
+        if '://' in m or m.startswith('mailto:'): continue
+        path, _, anchor = m.partition('#')
+        t = os.path.normpath(os.path.join(os.path.dirname(f), path)) if path else f
+        if not os.path.exists(t): print('missing', f, m); bad += 1
+        elif not inside(t): print('not checked (outside project):', f, m)  # e.g. a sibling repo
+        elif anchor and t.endswith('.md') and anchor not in slugs(t): print('anchor', f, m); bad += 1
+print('broken:', bad)
+```.*?```', '', open(path).read(), flags=re.S)
 def slugs(path):
     return {re.sub(r'[^\w\- ]', '', l.lstrip('#').strip().lower()).replace(' ', '-')
             for l in prose(path).splitlines() if re.match(r'#{1,6} ', l)}

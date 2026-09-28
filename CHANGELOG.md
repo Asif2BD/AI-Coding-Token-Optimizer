@@ -8,6 +8,7 @@
 - **No-loss and link verification** (`references/verification.md`). Also repoints “see CLAUDE.md § …” references across the repository.
 - **Proactive behaviour.** Adoption runs the full workflow. The upkeep rules written into the entry point keep later sessions maintaining the map, and agents offer the workflow when an entry point grows past its budget.
 - **One guide for Claude Code and Codex.** The full guide lives in `AGENTS.md`, and `CLAUDE.md` imports it with `@AGENTS.md`, so both hosts load the same rules.
+- **Per-host measurement.** Each host's always-loaded context is measured and reported separately.
 - **Hardened verification snippets.** Measurement follows `@imports`. The no-loss check reads only tracked or unignored Markdown, compares links by resolved destination, and skips symlinks. The anchor check ignores headings inside code examples.
 - **Shipped folders stay clean.** Routers never go inside folders that ship to users; those areas are routed from `docs/map/`, and new agent files go on the packaging exclude list.
 - **Move, don't copy.** When the owning guide already covers a topic, only the missing facts are merged in. Rules enforced by a single tool's hook are written into `AGENTS.md` for everyone. Links into sibling repositories are reported as not checked.
