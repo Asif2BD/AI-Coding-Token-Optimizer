@@ -4,12 +4,12 @@ Run these from the project root of a Git repository. They only read files. Befor
 
 ## Measure the always-loaded context
 
-This counts the entry points plus every file they import (`@path` lines, which Claude Code follows, including imports of imports). Run it before and after the change. Imports that resolve outside the project are listed but not read.
+This counts the entry points (`CLAUDE.md`, `.claude/CLAUDE.md`, `AGENTS.md`) plus every file they import (`@path` lines, which Claude Code follows, including imports of imports). Run it before and after the change. Imports that resolve outside the project are listed but not read.
 
 ```python
 import re, pathlib
 root = pathlib.Path('.').resolve()
-todo = [root / p for p in ('CLAUDE.md', 'AGENTS.md') if (root / p).is_file()]
+todo = [root / p for p in ('CLAUDE.md', '.claude/CLAUDE.md', 'AGENTS.md') if (root / p).is_file()]
 seen, total = set(), 0
 while todo:
     p = todo.pop().resolve()
@@ -33,7 +33,8 @@ For each old always-loaded file, this lists every heading, backticked term and l
 
 - Only Markdown that Git tracks, or that is new but not ignored, is read. Build output, virtual environments and ignored private files cannot satisfy the check.
 - Symlinks and anything that resolves outside the root are skipped.
-- Links are compared by **destination**, resolved from the file that holds them. A link that moved into a nested guide and was rewritten (`docs/setup.md` → `../setup.md`) still counts as kept.
+- Code examples are ignored on both sides, so a term that survives only inside an example doesn't count as kept.
+- Relative links are compared by **destination**, resolved from the file that holds them. A link that moved into a nested guide and was rewritten (`docs/setup.md` → `../setup.md`) still counts as kept. External URLs are compared literally.
 
 Restore anything listed, or name it in the report as deliberately dropped.
 
@@ -50,10 +51,13 @@ docs = {rel: (root / rel).read_text(errors='ignore') for rel in listed if readab
 def prose(text):
     return re.sub(r'```.*?```', '', text, flags=re.S)
 def destinations(src, text):
-    return {os.path.normpath(os.path.join(os.path.dirname(src), t))
-            for t in re.findall(r'\]\(([^)#\s]+)', prose(text)) if '://' not in t and not t.startswith('mailto:')}
+    out = set()
+    for t in re.findall(r'\]\(([^)#\s]+)', prose(text)):
+        external = '://' in t or t.startswith('mailto:')
+        out.add(t if external else os.path.normpath(os.path.join(os.path.dirname(src), t)))
+    return out
 old = open(OLD).read()
-corpus = ''.join(docs.values())
+corpus = ''.join(prose(t) for t in docs.values())
 kept = set().union(set(), *(destinations(rel, text) for rel, text in docs.items()))
 terms = set(re.findall(r'`([^`\n]{3,80})`', old)) | {h.strip() for h in re.findall(r'^#{1,6} +(.+)$', prose(old), re.M)}
 lost = sorted(t for t in terms if t not in corpus) + sorted(d for d in destinations(OLD_AT, old) if d not in kept)
@@ -66,6 +70,9 @@ Pass the files you touched as arguments. Code examples are ignored on both sides
 
 ```python
 import re, os, sys
+root = os.path.realpath('.')
+def inside(path):  # never read a symlink or anything outside the project
+    return not os.path.islink(path) and os.path.realpath(path).startswith(root + os.sep)
 def prose(path):
     return re.sub(r'```.*?```', '', open(path).read(), flags=re.S)
 def slugs(path):
@@ -78,6 +85,7 @@ for f in sys.argv[1:]:
         path, _, anchor = m.partition('#')
         t = os.path.normpath(os.path.join(os.path.dirname(f), path)) if path else f
         if not os.path.exists(t): print('missing', f, m); bad += 1
+        elif not inside(t): print('outside project', f, m); bad += 1
         elif anchor and t.endswith('.md') and anchor not in slugs(t): print('anchor', f, m); bad += 1
 print('broken:', bad)
 ```
