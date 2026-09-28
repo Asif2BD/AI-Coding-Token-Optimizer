@@ -89,7 +89,11 @@ Use the skeleton in [references/templates.md](references/templates.md). Keep eve
 - A new code area ships its own README router, linked from `docs/map/PRODUCT.md`.
 - New reference material goes to `docs/`, not into the entry point. Keep the entry point under its budget.
 
-If both `CLAUDE.md` and `AGENTS.md` are used, keep one full guide and make the other a short pointer that lists the same routers. Never duplicate policies between them. Do not change global or user-level agent settings.
+**Serving Claude Code and Codex from one guide.** Codex reads `AGENTS.md` (plus nested `AGENTS.md` files in subdirectories) and does not follow imports. Claude Code reads `CLAUDE.md` and follows `@path` imports. When a project uses both:
+- Make `AGENTS.md` the one full guide.
+- Make `CLAUDE.md` a thin file: `@AGENTS.md`, plus only the notes that apply to Claude Code alone.
+
+Both tools then load the same rules, with nothing duplicated to drift. Put nested per-area guides in `AGENTS.md` for the same reason, with a one-line `CLAUDE.md` that imports it, only where the host should auto-load them. If only one tool is used, keep its native file and skip the other, or make it a short pointer. Never duplicate policies between the two. Do not change global or user-level agent settings.
 
 ### 5. Repoint references
 

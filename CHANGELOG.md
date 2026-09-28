@@ -7,6 +7,8 @@
 - **An operations checklist** (`references/operations.md`) for CI triggers, what actually ships, rollback, health, config and secret names, and external services.
 - **No-loss and link verification** (`references/verification.md`). Also repoints “see CLAUDE.md § …” references across the repository.
 - **Proactive behaviour.** Adoption runs the full workflow. The upkeep rules written into the entry point keep later sessions maintaining the map, and agents offer the workflow when an entry point grows past its budget.
+- **One guide for Claude Code and Codex.** The full guide lives in `AGENTS.md`, and `CLAUDE.md` imports it with `@AGENTS.md`, so both hosts load the same rules.
+- **Hardened verification snippets.** Measurement follows `@imports`. The no-loss check reads only tracked or unignored Markdown, compares links by resolved destination, and skips symlinks. The anchor check ignores headings inside code examples.
 - **Templates** for the entry point, maps and area READMEs (`references/templates.md`), and a worked example of a 39 KB → 6.3 KB entry point.
 
 ## v1.0.2 — 2026-09-20

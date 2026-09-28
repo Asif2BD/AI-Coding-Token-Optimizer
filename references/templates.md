@@ -41,7 +41,15 @@ PRODUCT.md. Routers stay about 15–35 lines, link only to files that exist, and
 secrets. Reference material goes in docs/, not here.
 ```
 
-If both files are used, the second is a pointer: `The full guide is [CLAUDE.md](CLAUDE.md); its rules apply to every agent`, followed by the same three router links.
+If the project uses both Claude Code and Codex, the template above is `AGENTS.md`, and `CLAUDE.md` becomes:
+
+```markdown
+@AGENTS.md
+
+<!-- Claude Code only: anything that applies to Claude Code and not to other agents. Usually nothing. -->
+```
+
+If only one tool is used and the other file already exists, make it a pointer: `The full guide is [CLAUDE.md](CLAUDE.md); its rules apply to every agent`, followed by the same router links.
 
 ## docs/map/PRODUCT.md
 
