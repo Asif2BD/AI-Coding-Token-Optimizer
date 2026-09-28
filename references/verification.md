@@ -26,8 +26,8 @@ while todo:
     size = len(text.encode())
     total += size
     print(f'{size:>7}  {p.relative_to(root)}')
-    body = re.sub(r'\`\`\`.*?\`\`\`|\`[^\`\\n]*\`', '', text, flags=re.S)
-    todo += [p.parent / m for m in re.findall(r'(?<![\\w/])@([\\w./-]+\\.\\w+)', body)]
+    body = re.sub(r'```.*?```|`[^`\n]*`', '', text, flags=re.S)
+    todo += [p.parent / m for m in re.findall(r'(?<![\w/])@([\w./-]+\.\w+)', body)]
 print(f'{total:>7}  total bytes, about {total // 4} tokens')
 ```
 
@@ -39,7 +39,7 @@ For each old always-loaded file, this lists every heading, backticked term and l
 
 - Only Markdown that Git tracks, or that is new but not ignored, is read. Build output, virtual environments and ignored private files cannot satisfy the check.
 - Symlinks and anything that resolves outside the root are skipped.
-- Links are compared by destination, resolved from the file that holds them. A link that moved into a nested guide and was rewritten (`docs/setup.md` → `../setup.md`) still counts as kept.
+- Links are compared by destination, resolved from the file that holds them. A link that moved into a nested guide and was rewritten (`docs/setup.md` â `../setup.md`) still counts as kept.
 - External URLs are preserved and compared literally; they do not need local path resolution.
 
 Restore anything listed, or name it in the report as deliberately dropped.
@@ -59,10 +59,10 @@ def readable(rel):
     return p.is_file() and not p.is_symlink() and root in resolved.parents
 docs = {rel: (root / rel).read_text(errors='ignore') for rel in listed if readable(rel)}
 def prose(text):
-    return re.sub(r'\`\`\`.*?\`\`\`', '', text, flags=re.S)
+    return re.sub(r'```.*?```', '', text, flags=re.S)
 def destinations(src, text):
     result = set()
-    for target in re.findall(r'\]\(([^)\\s]+)', prose(text)):
+    for target in re.findall(r'\]\(([^)#\s]+)', prose(text)):
         if target.startswith('mailto:') or '://' in target:
             result.add(target)
             continue
@@ -77,11 +77,11 @@ def destinations(src, text):
 old = pathlib.Path(OLD).read_text()
 corpus = ''.join(prose(text) for text in docs.values())
 kept = set().union(*(destinations(rel, text) for rel, text in docs.items()))
-terms = (set(re.findall(r'\`([^\`\\n]{3,80})\`', prose(old)))
+terms = (set(re.findall(r'`([^`\n]{3,80})`', prose(old)))
          | {h.strip() for h in re.findall(r'^#{1,6} +(.+)$', prose(old), re.M)})
 lost = sorted(t for t in terms if t not in corpus)
 lost += sorted(d for d in destinations(OLD_AT, old) if d not in kept)
-print('\`n\`.join(lost) or 'nothing lost')
+print('\n'.join(lost) or 'nothing lost')
 ```
 
 ## Links and anchors
@@ -91,9 +91,9 @@ Pass the files you touched as arguments. Code examples are ignored on both sides
 ```python
 import re, os, pathlib, sys
 def prose(path):
-    return re.sub(r'\`\`\`.*?\`\`\`', '', pathlib.Path(path).read_text(), flags=re.S)
+    return re.sub(r'```.*?```', '', pathlib.Path(path).read_text(), flags=re.S)
 def slugs(path):
-    return {re.sub(r'[^\\w\\- ]', '', l.lstrip('#').strip().lower()).replace(' ', '-')
+    return {re.sub(r'[^\w\- ]', '', l.lstrip('#').strip().lower()).replace(' ', '-')
             for l in prose(path).splitlines() if re.match(r'#{1,6} ', l)}
 def safe_target(path, root):
     p = pathlib.Path(path)
@@ -109,7 +109,7 @@ def safe_target(path, root):
 root = pathlib.Path('.').resolve()
 bad = 0
 for f in sys.argv[1:]:
-    for m in re.findall(r'\]\(([^)\\s]+)\)', re.sub(r'\`[^\`\\n]*\`', '', prose(f))):
+    for m in re.findall(r'\]\(([^)\s]+)\)', re.sub(r'`[^`\n]*`', '', prose(f))):
         if '://' in m or m.startswith('mailto:'): continue
         path, _, anchor = m.partition('#')
         candidate = pathlib.Path(os.path.normpath(os.path.join(os.path.dirname(f), path))) if path else pathlib.Path(f)
@@ -128,7 +128,7 @@ print('broken:', bad)
 ## Stale references
 
 ```sh
-git grep -n -e 'CLAUDE\\.md' -e 'AGENTS\\.md' -- ':!CLAUDE.md' ':!AGENTS.md'
+git grep -n -e 'CLAUDE\.md' -e 'AGENTS\.md' -- ':!CLAUDE.md' ':!AGENTS.md'
 ```
 
 Check every hit that names a section of the old entry point, and repoint it to where that section now lives.
