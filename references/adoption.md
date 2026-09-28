@@ -13,4 +13,14 @@ One-line request after installation:
 
 For maintenance: “Refresh this project’s AI Coding Token Optimizer maps against the current repository.”
 
+Adoption is proactive. “Adopt this skill” means running the whole workflow in [SKILL.md](../SKILL.md):
+1. Measure.
+2. Slim the entry point.
+3. Write the routers.
+4. Repoint references.
+5. Verify.
+6. Report.
+
+It does not mean a questionnaire or a partial pass. The upkeep rules it writes into the entry point keep later sessions maintaining the map, even in clients where the skill isn't installed.
+
 Only the current project is in scope unless the user names another. Do not edit global configuration, add background jobs or install another model. A prompt cannot grant filesystem access or guarantee an agent loads the map.

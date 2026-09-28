@@ -1,6 +1,6 @@
 # AI Coding Token Optimizer
 
-[![Version](https://img.shields.io/badge/version-1.0.2-brightgreen.svg)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-1.1.0-brightgreen.svg)](CHANGELOG.md)
 [![MissionDeck](https://img.shields.io/badge/ProSkills-md-blueviolet)](https://proskills.md/skills/coding/ai-coding-token-optimizer)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE.txt)
 
@@ -19,13 +19,17 @@ For a small change, an AI agent may first search folders, open unrelated files a
 ## What it creates
 
 ```text
-Your existing agent instructions
-(AGENTS.md, CLAUDE.md, or your agent’s established entry point)
-  └── Project Map
-      ├── CONTENT.md     → content sources and publishing guidance
-      ├── PRODUCT.md     → application code, components and tests
-      └── OPERATIONS.md  → build, deployment and recovery procedures
+AGENTS.md / CLAUDE.md      ≤ ~8 KB, loaded every session: rules, workflow, commands,
+                           reflexes, and the Project map with its upkeep rules
+docs/map/
+  ├── PRODUCT.md           → code area → its README router → its design doc
+  ├── OPERATIONS.md        → build, CI, deploy, rollback, health, config names
+  └── DOCS.md / CONTENT.md → question → the one document that answers it
+src/README.md, app/README.md …   a short router beside each code area
+docs/guides/…              reference moved out of the entry point, verbatim
 ```
+
+**Where the savings come from.** The entry point loads in full at the start of every session, before any task. The skill measures it, keeps the rules that bind every task, and moves reference material (source trees, env-var tables, CI walkthroughs, deploy layouts, gotchas) one link away. In one service this cut `CLAUDE.md` from 39 KB to 6.3 KB, about 8,000 fewer tokens per session, with every rule kept. The maps then cut the rediscovery an agent does on each task.
 
 These are examples, not a mandatory folder layout. A small project may need just one Map section. A monorepo may use package-level maps. The skill reuses good existing indexes instead of adding clutter.
 
@@ -41,9 +45,15 @@ Each map is a short Markdown document with links and a sentence explaining each 
 2. Give the agent access to this repository’s instructions and your project files.
 3. Paste this one-sentence request:
 
-> Read https://proskills.md/downloads/ai-coding-token-optimizer/1.0.2/SKILL.md and apply its project-mapping workflow to this project, preserving existing instructions and application code.
+> Read https://proskills.md/downloads/ai-coding-token-optimizer/1.1.0/SKILL.md and apply its project-mapping workflow to this project, preserving existing instructions and application code.
 
-The agent inspects your project, creates or refreshes appropriate maps, connects them to its existing project instructions, and checks the links. Review the resulting documentation diff. Then continue asking for your normal project changes—the entry point tells the agent where to start.
+The agent then:
+
+1. Measures the instruction file every session loads.
+2. Slims it to the rules that bind every task.
+3. Moves reference material into routers and guides.
+4. Checks that nothing was lost and that every link resolves.
+5. Reports the before and after sizes. Review the resulting documentation diff. Then continue asking for your normal project changes—the entry point tells the agent where to start.
 
 **If your agent cannot open GitHub links:** copy the standalone instructions in [GITHUB-PROMPT.md](GITHUB-PROMPT.md) into the agent instead. You do not need to install a skill, use Git commands or create another repository merely to adopt the approach.
 
@@ -63,10 +73,11 @@ Other clients can use their own supported skill installer with this repository. 
 
 - **Before a change:** the agent uses the relevant map to find likely edit locations and applicable procedures.
 - **During a change:** it reads the actual source it needs; the map is not a substitute for code inspection or mandatory instructions.
-- **When paths change:** the affected map should be updated in the same change.
+- **When paths change:** the affected router is updated in the same change. That rule is written into the entry point, so every later session follows it.
+- **When the entry point grows:** agents move new reference material into `docs/` instead, and offer a refresh once it passes its budget.
 - **In a new session:** the project entry point makes the maps discoverable, provided the host reads that entry point.
 
-Initial mapping takes work and model usage. Repeated tasks are where avoiding repeated exploration may help most. Time and token savings depend on project size, task and agent behavior; no percentage or subscription-lifetime guarantee has been measured.
+Initial mapping takes work and model usage. The entry-point saving is measured and reported on every run. The saving from less rediscovery depends on project size, task and agent behavior, and has not been measured.
 
 ## What it does not do
 
@@ -83,7 +94,10 @@ Review the diff; undo by reverting only the mapping changes. Never put secrets o
 - [GITHUB-PROMPT.md](GITHUB-PROMPT.md): one-sentence request and installation-free standalone prompt.
 - [SKILL.md](SKILL.md): agent execution workflow.
 - [CLAWHUB.md](CLAWHUB.md): registry description and installed-skill usage.
-- [Examples](references/examples.md): small projects, larger repositories and monorepos.
+- [Examples](references/examples.md): small projects, an oversized entry point, and monorepos.
+- [Templates](references/templates.md): skeletons for the entry point, maps and area READMEs.
+- [Operations](references/operations.md): what the operations map must cover.
+- [Verification](references/verification.md): measurement, no-loss, link and stale-reference checks.
 
 ## More by Asif2BD
 

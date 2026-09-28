@@ -4,7 +4,7 @@ This is a documentation-only instruction package. There are no executable helper
 
 ## Effects when invoked
 
-The agent inspects selected project files and may create or edit navigation Markdown and AGENTS.md/CLAUDE.md. Those instruction-file changes affect future agent behavior and should be reviewed. Existing instructions, unrelated edits and release gates must be preserved. No automatic commit, push or deployment is authorized by this skill.
+The agent inspects selected project files. It may create or edit navigation Markdown and AGENTS.md/CLAUDE.md, move reference sections of those files verbatim into other documentation, and repoint comments or script notes that cite a moved section. That last step is comment-only; code behaviour is never changed. Those instruction-file changes affect future agent behavior and should be reviewed. Existing instructions, unrelated edits and release gates must be preserved. No automatic commit, push or deployment is authorized by this skill.
 
 SKILL.md defines scope and boundaries. GITHUB-PROMPT.md offers equivalent manual adoption. references/ contains illustrative usage guidance. README.md and ANNOUNCEMENT.md explain the product. CHANGELOG.md and LICENSE files hold release/legal metadata. SHA256SUMS.txt and .clawhubsafe provide integrity manifests.
 
