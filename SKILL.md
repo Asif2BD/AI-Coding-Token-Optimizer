@@ -97,7 +97,7 @@ Search the whole repository for mentions of the entry point's old sections: code
 
 ### 6. Verify, and prove nothing was lost
 
-- **No-loss check.** Extract every backticked term, link target and heading from the *old* entry point, and confirm each still appears somewhere in the repository's docs. Restore anything missing, or list it as deliberately dropped with the reason.
+- **No-loss check.** Extract every heading, backticked term and link target from the *old* entry point, and confirm each still appears somewhere in the repository's docs. Restore anything missing, or list it as deliberately dropped with the reason.
 - **Links.** Resolve every relative link and anchor in the files you touched, from each file's own directory. Report broken links that were already there, but don't fix them unless the task includes it.
 - **Truth.** Spot-check each router row against the code. When a doc contradicts the code and the code is clearly the current authority, fix the doc. Otherwise flag the conflict.
 - **Diff review.** Look for unrelated edits, weakened rules and sensitive details.

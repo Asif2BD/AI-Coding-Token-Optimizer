@@ -10,14 +10,19 @@ wc -c CLAUDE.md AGENTS.md 2>/dev/null   # tokens ≈ bytes ÷ 4; repeat after th
 
 ## No-loss check
 
-This lists every backticked term and link target in the old entry point that no longer appears in any Markdown file. Restore each one, or list it in the report as deliberately dropped.
+This lists every heading, backticked term and link target in the old entry point that no longer appears in any Markdown file inside the project. Symlinks are skipped, so the scan never reads outside the root. Restore each one, or list it in the report as deliberately dropped.
 
 ```python
 import re, pathlib
+root = pathlib.Path('.').resolve()
 old = pathlib.Path('/tmp/CLAUDE.before.md').read_text()
-docs = ''.join(p.read_text(errors='ignore') for p in pathlib.Path('.').rglob('*.md')
-               if 'node_modules' not in p.parts and '.git' not in p.parts)
-terms = set(re.findall(r'`([^`\n]{3,80})`', old)) | set(re.findall(r'\]\(([^)#\s]+)', old))
+def inside(p):  # skip symlinks and anything that resolves outside the project
+    return not p.is_symlink() and root in p.resolve().parents
+docs = ''.join(p.read_text(errors='ignore') for p in root.rglob('*.md')
+               if inside(p) and 'node_modules' not in p.parts and '.git' not in p.parts)
+terms = (set(re.findall(r'`([^`\n]{3,80})`', old))
+         | set(re.findall(r'\]\(([^)#\s]+)', old))
+         | {h.strip() for h in re.findall(r'^#{1,6} +(.+)$', old, re.M)})
 print('\n'.join(sorted(t for t in terms if t not in docs)) or 'nothing lost')
 ```
 
