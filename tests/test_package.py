@@ -35,6 +35,12 @@ class PackageTests(unittest.TestCase):
   for p in ['README.md','CLAWHUB.md','GITHUB-PROMPT.md','CHANGELOG.md']:
    self.assertIn('1.1.0',(ROOT/p).read_text(),p)
   self.assertIn('# Version: 1.1.0',(ROOT/'.clawhubsafe').read_text())
+ def test_verification_snippets_compile(self):
+  text=(ROOT/'references'/'verification.md').read_text()
+  blocks=re.findall(r'^```python\n(.*?)^```$',text,re.S|re.M)
+  self.assertGreaterEqual(len(blocks),3)
+  for b in blocks:
+   compile(b,'verification.md','exec')
  def test_no_machine_paths(self):
   for p in ROOT.rglob('*.md'):
    self.assertNotIn('/root/',p.read_text())

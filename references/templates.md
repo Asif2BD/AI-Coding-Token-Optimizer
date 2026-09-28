@@ -37,7 +37,7 @@ The map guides what to read first. It never replaces the rules above or a releas
 
 **Keep the map true.** A change that adds, moves or removes a file a router names updates
 that router in the same change. Each code area keeps its own short README router, linked from
-PRODUCT.md. Routers stay about 15–35 lines, link only to files that exist, and never hold
+PRODUCT.md, except folders that ship to users, which are routed from docs/map/ instead. Routers stay about 15–35 lines, link only to files that exist, and never hold
 secrets. Reference material goes in docs/, not here.
 ```
 

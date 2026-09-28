@@ -12,6 +12,7 @@ Run this before and after the change. Files that resolve outside the project are
 
 ```python
 import re, pathlib
+FENCE = '`' * 3  # a code-fence marker, spelled so it can't close this block
 root = pathlib.Path('.').resolve()
 def measure(entries, follow_imports):
     todo = [root / p for p in entries if (root / p).exists()]
@@ -26,7 +27,7 @@ def measure(entries, follow_imports):
         total += len(text.encode())
         print(f'  {len(text.encode()):>7}  {p.relative_to(root)}')
         if follow_imports:
-            body = re.sub(r'```.*?```|`[^`\n]*`', '', text, flags=re.S)  # imports in code are not imports
+            body = re.sub(FENCE + '.*?' + FENCE + r'|`[^`\n]*`', '', text, flags=re.S)  # imports in code are not imports
             todo += [p.parent / m for m in re.findall(r'(?<![\w/])@([\w./-]+\.\w+)', body)]
     return total
 for host, entries, follow in (('Claude Code', ('CLAUDE.md', '.claude/CLAUDE.md'), True),
@@ -51,6 +52,7 @@ Restore anything listed, or name it in the report as deliberately dropped.
 
 ```python
 import re, os, subprocess, pathlib
+FENCE = '`' * 3
 OLD, OLD_AT = '/tmp/CLAUDE.before.md', 'CLAUDE.md'   # saved copy, and where it lived
 root = pathlib.Path('.').resolve()
 listed = subprocess.run(['git', 'ls-files', '-co', '--exclude-standard', '--', '*.md'],
@@ -60,12 +62,14 @@ def readable(rel):
     return p.is_file() and not p.is_symlink() and root in p.resolve().parents
 docs = {rel: (root / rel).read_text(errors='ignore') for rel in listed if readable(rel)}
 def prose(text):
-    return re.sub(r'```.*?```', '', text, flags=re.S)
+    return re.sub(FENCE + '.*?' + FENCE, '', text, flags=re.S)
 def destinations(src, text):
     out = set()
-    for t in re.findall(r'\]\(([^)#\s]+)', prose(text)):
-        external = '://' in t or t.startswith('mailto:')
-        out.add(t if external else os.path.normpath(os.path.join(os.path.dirname(src), t)))
+    for t in re.findall(r'\]\(([^)\s]+)\)', prose(text)):
+        if '://' in t or t.startswith('mailto:'):
+            out.add(t)                                # external: compared literally, fragment included
+        elif t.split('#')[0]:
+            out.add(os.path.normpath(os.path.join(os.path.dirname(src), t.split('#')[0])))
     return out
 old = open(OLD).read()
 corpus = ''.join(prose(t) for t in docs.values())
@@ -82,11 +86,12 @@ Pass the files you touched as arguments. Code examples are ignored on both sides
 
 ```python
 import re, os, sys
+FENCE = '`' * 3
 root = os.path.realpath('.')
 def inside(path):  # never read a symlink or anything outside the project
     return not os.path.islink(path) and os.path.realpath(path).startswith(root + os.sep)
 def prose(path):
-    return re.sub(r'```.*?```', '', open(path).read(), flags=re.S)
+    return re.sub(FENCE + '.*?' + FENCE, '', open(path).read(), flags=re.S)
 def slugs(path):  # GitHub numbers repeated headings: setup, setup-1, setup-2…
     out, count = set(), {}
     for line in prose(path).splitlines():
@@ -99,20 +104,6 @@ bad = 0
 for f in sys.argv[1:]:
     if not inside(f):
         print('not read (outside project or a symlink):', f); continue
-    for m in re.findall(r'\]\(([^)\s]+)\)', re.sub(r'`[^`\n]*`', '', prose(f))):
-        if '://' in m or m.startswith('mailto:'): continue
-        path, _, anchor = m.partition('#')
-        t = os.path.normpath(os.path.join(os.path.dirname(f), path)) if path else f
-        if not os.path.exists(t): print('missing', f, m); bad += 1
-        elif not inside(t): print('not checked (outside project):', f, m)  # e.g. a sibling repo
-        elif anchor and t.endswith('.md') and anchor not in slugs(t): print('anchor', f, m); bad += 1
-print('broken:', bad)
-```.*?```', '', open(path).read(), flags=re.S)
-def slugs(path):
-    return {re.sub(r'[^\w\- ]', '', l.lstrip('#').strip().lower()).replace(' ', '-')
-            for l in prose(path).splitlines() if re.match(r'#{1,6} ', l)}
-bad = 0
-for f in sys.argv[1:]:
     for m in re.findall(r'\]\(([^)\s]+)\)', re.sub(r'`[^`\n]*`', '', prose(f))):
         if '://' in m or m.startswith('mailto:'): continue
         path, _, anchor = m.partition('#')
