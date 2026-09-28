@@ -10,6 +10,7 @@
 - **One guide for Claude Code and Codex.** The full guide lives in `AGENTS.md`, and `CLAUDE.md` imports it with `@AGENTS.md`, so both hosts load the same rules.
 - **Hardened verification snippets.** Measurement follows `@imports`. The no-loss check reads only tracked or unignored Markdown, compares links by resolved destination, and skips symlinks. The anchor check ignores headings inside code examples.
 - **Shipped folders stay clean.** Routers never go inside folders that ship to users; those areas are routed from `docs/map/`, and new agent files go on the packaging exclude list.
+- **Move, don't copy.** When the owning guide already covers a topic, only the missing facts are merged in. Rules enforced by a single tool's hook are written into `AGENTS.md` for everyone. Links into sibling repositories are reported as not checked.
 - **Templates** for the entry point, maps and area READMEs (`references/templates.md`), and a worked example of a 39 KB → 6.3 KB entry point.
 
 ## v1.0.2 — 2026-09-20

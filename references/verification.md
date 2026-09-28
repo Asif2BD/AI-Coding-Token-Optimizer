@@ -66,7 +66,7 @@ print('\n'.join(lost) or 'nothing lost')
 
 ## Links and anchors
 
-Pass the files you touched as arguments. Code examples are ignored on both sides: a link inside an example is not checked, and a `# Heading` inside an example is not treated as an anchor. Anchors follow GitHub's slug rule, which lowercases the heading, drops punctuation and turns spaces into hyphens.
+Pass the files you touched as arguments. Code examples are ignored on both sides: a link inside an example is not checked, and a `# Heading` inside an example is not treated as an anchor. Links that leave the project, such as into a sibling repository cloned beside it, are listed as not checked rather than read or counted as broken. Anchors follow GitHub's slug rule, which lowercases the heading, drops punctuation and turns spaces into hyphens.
 
 ```python
 import re, os, sys
@@ -85,7 +85,7 @@ for f in sys.argv[1:]:
         path, _, anchor = m.partition('#')
         t = os.path.normpath(os.path.join(os.path.dirname(f), path)) if path else f
         if not os.path.exists(t): print('missing', f, m); bad += 1
-        elif not inside(t): print('outside project', f, m); bad += 1
+        elif not inside(t): print('not checked (outside project):', f, m)  # e.g. a sibling repo
         elif anchor and t.endswith('.md') and anchor not in slugs(t): print('anchor', f, m); bad += 1
 print('broken:', bad)
 ```

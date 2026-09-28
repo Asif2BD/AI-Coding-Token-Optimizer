@@ -35,6 +35,11 @@ A free plugin had a 36 KB `CLAUDE.md`. Its commercial add-on had a 20 KB one tha
 - `AGENTS.md` was added to `.distignore`. The add-on's allowlist packager already left it out.
 - The add-on's guide links the free plugin's `AGENTS.md` for the shared rules rather than importing it, and restates only the hard rules both repositories share.
 - The no-loss check caught a dropped binding rule, "apply the unslop skill to any text people read", before review.
+- A local review before pushing caught what the no-loss check can't:
+  - Guides had been appended to instead of merged into, which left two bundle sizes in one guide.
+  - A push ban was enforced only by a Claude Code hook, and was never written for other agents.
+  - A testing guide described a CI job that didn't exist; the old entry point had been the one correct statement of it.
+  - Commit messages broke the repo's own "no AI mentions" rule.
 
 ## Monorepo
 

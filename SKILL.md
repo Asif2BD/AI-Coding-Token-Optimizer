@@ -67,7 +67,7 @@ Label every section of the entry point as one of two kinds:
   - one area's style or design rules
   - long examples and history
 
-Move each reference section **verbatim** to the guide or router that owns its topic: an existing guide when one exists, otherwise a new `docs/guides/<topic>.md` or the area's README. Fix relative links for the new location. A rule stays in the entry point. Shorten its wording if you like, but never weaken it.
+Move each reference section **verbatim** to the guide or router that owns its topic: an existing guide when one exists, otherwise a new `docs/guides/<topic>.md` or the area's README. **Move, don't copy.** If the owning guide already covers the topic, merge in only the facts it's missing. Appending the whole section creates a second copy that drifts; in one adoption it left a guide stating two different bundle sizes. When a moved section contradicts the guide it joins, check the code and keep the true one. Fix relative links for the new location. A rule stays in the entry point. Shorten its wording if you like, but never weaken it.
 
 ### 3. Write the routers
 
@@ -91,7 +91,7 @@ Use the skeleton in [references/templates.md](references/templates.md). Keep eve
 - New reference material goes to `docs/`, not into the entry point. Keep the entry point under its budget.
 
 **Serving Claude Code and Codex from one guide.** Codex reads `AGENTS.md` (plus nested `AGENTS.md` files in subdirectories) and does not follow imports. Claude Code reads `CLAUDE.md` and follows `@path` imports. When a project uses both:
-- Make `AGENTS.md` the one full guide.
+- Make `AGENTS.md` the one full guide. **A rule enforced only by one tool's hook or setting** (for example a `.claude/settings.json` hook that blocks bulk pushes) must still be written as a rule in `AGENTS.md`, because other agents never run that hook.
 - Make `CLAUDE.md` a thin file: `@AGENTS.md`, plus only the notes that apply to Claude Code alone.
 
 Both tools then load the same rules, with nothing duplicated to drift. Put nested per-area guides in `AGENTS.md` for the same reason, with a one-line `CLAUDE.md` that imports it, only where the host should auto-load them. If only one tool is used, keep its native file and skip the other, or make it a short pointer. Never duplicate policies between the two. Do not change global or user-level agent settings.
