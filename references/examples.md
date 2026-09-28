@@ -26,6 +26,16 @@ Adding maps on top of that file would have saved nothing on the always-loaded co
 - Six comments and scripts that said "see CLAUDE.md § …" were repointed.
 - The no-loss check found a handful of dropped specifics (brand colour values, a service name, a git command). They were restored.
 
+## WordPress plugins built with both Claude Code and Codex
+
+A free plugin had a 36 KB `CLAUDE.md`. Its commercial add-on had a 20 KB one that sent every session on to read the free plugin's guide first. Codex saw neither, because neither repository had an `AGENTS.md`. The adoption:
+
+- `AGENTS.md` became the one full guide (9.7 KB and 7.6 KB). `CLAUDE.md` became `@AGENTS.md` plus three Claude-only notes (repo skills, a push hook, a slash command).
+- `includes/` and `modules/` ship to customers, so their routers live in `docs/map/PRODUCT.md`. `src/` and `tests/` are excluded from the zip, so they got their own README routers.
+- `AGENTS.md` was added to `.distignore`. The add-on's allowlist packager already left it out.
+- The add-on's guide links the free plugin's `AGENTS.md` for the shared rules rather than importing it, and restates only the hard rules both repositories share.
+- The no-loss check caught a dropped binding rule, "apply the unslop skill to any text people read", before review.
+
 ## Monorepo
 
 Give each package its own entry point and routers. The root entry point stays small: shared rules, plus a router table of packages that links each package's entry point and the shared operations map. Avoid one giant inventory of every file.
