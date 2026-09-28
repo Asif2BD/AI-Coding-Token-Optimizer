@@ -1,6 +1,6 @@
 # AI Coding Token Optimizer — ClawHub description
 
-Version: 1.0.2
+Version: 1.1.0
 Slug: ai-coding-token-optimizer
 
 ## Stop making your agent rediscover your project
@@ -14,13 +14,17 @@ For a small change, an AI agent may first search folders, open unrelated files a
 ## What it creates
 
 ```text
-Your existing agent instructions
-(AGENTS.md, CLAUDE.md, or your agent’s established entry point)
-  └── Project Map
-      ├── CONTENT.md     → content sources and publishing guidance
-      ├── PRODUCT.md     → application code, components and tests
-      └── OPERATIONS.md  → build, deployment and recovery procedures
+AGENTS.md / CLAUDE.md      ≤ ~8 KB, loaded every session: rules, workflow, commands,
+                           reflexes, and the Project map with its upkeep rules
+docs/map/
+  ├── PRODUCT.md           → code area → its README router → its design doc
+  ├── OPERATIONS.md        → build, CI, deploy, rollback, health, config names
+  └── DOCS.md / CONTENT.md → question → the one document that answers it
+src/README.md, app/README.md …   a short router beside each code area
+docs/guides/…              reference moved out of the entry point, verbatim
 ```
+
+**Where the savings come from.** The entry point loads in full at the start of every session, before any task. The skill measures it, keeps the rules that bind every task, and moves reference material (source trees, env-var tables, CI walkthroughs, deploy layouts, gotchas) one link away. In one service this cut `CLAUDE.md` from 39 KB to 6.3 KB, about 8,000 fewer tokens per session, with every rule kept. The maps then cut the rediscovery an agent does on each task.
 
 These are examples, not a mandatory folder layout. A small project may need just one Map section. A monorepo may use package-level maps. The skill reuses good existing indexes instead of adding clutter.
 
@@ -38,11 +42,20 @@ ClawHub is a distribution option, not an OpenClaw-only dependency. For agents wi
 
 ## Agent guidelines
 
-Follow SKILL.md: inspect the chosen project, reuse existing indexes, preserve mandatory instructions and source code, write concise maps, validate links and report documentation changes. Update maps when paths change. No project scripts, external publishing or secret reading is authorized by mapping.
+Follow SKILL.md:
+
+1. Measure the always-loaded entry point.
+2. Keep its binding rules, and move reference material verbatim into routers and guides.
+3. Write the task-table maps and a README router for each area.
+4. Repoint references to moved sections.
+5. Verify that nothing was lost and every link resolves.
+6. Report the before and after sizes.
+
+Preserve mandatory instructions and source code, and update the routers whenever paths change. No project scripts, external publishing or secret reading is authorized by mapping.
 
 ## Expectations
 
-The first mapping pass uses normal agent context. Later tasks may benefit from less repeated exploration; no numerical savings or speed guarantee is claimed. Host discovery of project instructions varies.
+The first mapping pass uses normal agent context. The always-loaded entry-point saving is measured and reported. Later tasks may also benefit from less repeated exploration, which is not measured. Host discovery of project instructions varies.
 
 ## Related projects
 
