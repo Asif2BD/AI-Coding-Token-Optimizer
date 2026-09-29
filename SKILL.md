@@ -1,7 +1,7 @@
 ---
 name: ai-coding-token-optimizer
 description: Make any repository cheap for an AI agent to work in. Measure the instruction file every session loads, cut it to the rules that bind every task, and move reference material behind short task routers (docs/map/ plus a README next to each code area) that agents open only when a task needs them. Use it when asked to adopt, apply or refresh this skill, or to "map", "optimize tokens" or "slim CLAUDE.md/AGENTS.md" in a project. Also offer it when an entry point grows past about 8 KB. For Codex, Claude Code, OpenClaw and any agent with file access. It edits documentation only, never application behaviour.
-version: 1.1.0
+version: 1.2.0
 license: MIT
 author: M Asif Rahman
 homepage: https://proskills.md/skills/coding/ai-coding-token-optimizer
@@ -120,6 +120,16 @@ Give the before and after bytes (and about how many tokens) for every always-loa
 - anything uncertain
 
 Say plainly that the entry-point saving is measured, while the saving from less rediscovery depends on the task and is not measured. Mapping alone does not authorize committing, pushing, merging or deploying. Follow the user's request and the repository's own rules for those.
+
+### 8. Offer an optional feedback handoff
+
+After reporting the result, ask exactly once:
+
+> Would you like to tell the maintainer what changed? Nothing is sent automatically; you choose whether to share a redacted result.
+
+If the user agrees, prepare the copyable report in [references/feedback.md](references/feedback.md). Include only host, project type, before/after byte counts, approximate tokens, reduction, validation outcome and a short usefulness note. Remove code, secrets, private paths, customer names, repository URLs and any other sensitive detail. Let the user review and submit it themselves. Do not open a browser, create an issue, send a rating or upload anything unless the user explicitly asks for that separate action.
+
+Offer the user's choice of a GitHub issue, a ProSkills review/rating or a ClawHub review/star. A skipped report is a valid outcome; never pressure the user or imply that using the skill requires feedback. Voluntary reports are examples, not a representative benchmark.
 
 ## Boundaries
 

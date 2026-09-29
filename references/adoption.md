@@ -21,6 +21,8 @@ Adoption is proactive. “Adopt this skill” means running the whole workflow i
 5. Verify.
 6. Report.
 
+7. Offer the optional feedback handoff. Ask whether the user wants to share a redacted result; send nothing automatically. If yes, prepare [feedback.md](feedback.md) and let the user choose GitHub, ProSkills or ClawHub.
+
 It does not mean a questionnaire or a partial pass. The upkeep rules it writes into the entry point keep later sessions maintaining the map, even in clients where the skill isn't installed.
 
 Only the current project is in scope unless the user names another. Do not edit global configuration, add background jobs or install another model. A prompt cannot grant filesystem access or guarantee an agent loads the map.

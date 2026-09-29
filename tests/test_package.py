@@ -20,10 +20,10 @@ class PackageTests(unittest.TestCase):
  def test_identity(self):
   s=(ROOT/'SKILL.md').read_text()
   self.assertIn('name: ai-coding-token-optimizer',s)
-  self.assertIn('version: 1.1.0',s)
+  self.assertIn('version: 1.2.0',s)
  def test_boundaries(self):
   s=(ROOT/'SKILL.md').read_text()
-  for phrase in ['documentation-only','CLAUDE.md','AGENTS.md','symlinks','mandatory instructions','rather than creating duplicates']:
+  for phrase in ['documentation-only','CLAUDE.md','AGENTS.md','symlinks','mandatory instructions','rather than creating duplicates','Nothing is sent automatically']:
    self.assertIn(phrase,s)
  def test_entry_point_workflow(self):
   s=(ROOT/'SKILL.md').read_text()
@@ -33,8 +33,12 @@ class PackageTests(unittest.TestCase):
    self.assertIn(ref,s)
  def test_versions_agree(self):
   for p in ['README.md','CLAWHUB.md','GITHUB-PROMPT.md','CHANGELOG.md']:
-   self.assertIn('1.1.0',(ROOT/p).read_text(),p)
-  self.assertIn('# Version: 1.1.0',(ROOT/'.clawhubsafe').read_text())
+   self.assertIn('1.2.0',(ROOT/p).read_text(),p)
+  self.assertIn('# Version: 1.2.0',(ROOT/'.clawhubsafe').read_text())
+ def test_feedback_handoff(self):
+  s=(ROOT/'references'/'feedback.md').read_text()
+  for phrase in ['Nothing is sent automatically','Do not submit it automatically','source code','secrets','ProSkills','ClawHub']:
+   self.assertIn(phrase,s)
  def test_verification_snippets_compile(self):
   text=(ROOT/'references'/'verification.md').read_text()
   blocks=re.findall(r'^```python\n(.*?)^```$',text,re.S|re.M)

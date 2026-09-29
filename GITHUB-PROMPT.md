@@ -2,7 +2,7 @@
 
 ## One sentence
 
-> Read https://proskills.md/downloads/ai-coding-token-optimizer/1.1.0/SKILL.md and apply its project-mapping workflow to this project, preserving existing instructions and application code.
+> Read https://proskills.md/downloads/ai-coding-token-optimizer/1.2.0/SKILL.md and apply its project-mapping workflow to this project, preserving existing instructions and application code.
 
 No skill installation is required. The agent must be able to read this repository and edit the target project. If links cannot be opened, paste the standalone prompt below.
 
@@ -23,3 +23,5 @@ Boundaries, which hold throughout:
 5. **Repoint.** Search the repository for mentions of moved sections ("see CLAUDE.md § …") in comments, scripts, workflows and skills, and point each at its new home.
 6. **Verify.** Confirm that every heading, backticked term and link from the old entry point still appears somewhere, and restore what is missing. Check that every relative link and anchor resolves, and review the diff for weakened rules and sensitive details.
 7. **Report.** Give the before and after sizes, the files changed, the validation results and any uncertainty. Do not commit, push, merge or deploy unless asked. If this has been run before, refresh the existing maps rather than creating duplicates.
+
+8. **Offer, never collect, feedback.** Ask whether the user wants a redacted result report for the maintainer. Nothing is sent automatically. If they agree, prepare the template in `references/feedback.md`; let them review and submit it through GitHub, ProSkills or ClawHub. Never include code, secrets, private paths, repository URLs or client data.
