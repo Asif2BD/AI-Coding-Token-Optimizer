@@ -1,6 +1,6 @@
 # AI Coding Token Optimizer
 
-[![Version](https://img.shields.io/badge/version-1.1.0-brightgreen.svg)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-1.2.0-brightgreen.svg)](CHANGELOG.md)
 [![MissionDeck](https://img.shields.io/badge/ProSkills-md-blueviolet)](https://proskills.md/skills/coding/ai-coding-token-optimizer)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE.txt)
 
@@ -45,7 +45,7 @@ Each map is a short Markdown document with links and a sentence explaining each 
 2. Give the agent access to this repository’s instructions and your project files.
 3. Paste this one-sentence request:
 
-> Read https://proskills.md/downloads/ai-coding-token-optimizer/1.1.0/SKILL.md and apply its project-mapping workflow to this project, preserving existing instructions and application code.
+> Read https://proskills.md/downloads/ai-coding-token-optimizer/1.2.0/SKILL.md and apply its project-mapping workflow to this project, preserving existing instructions and application code.
 
 The agent then:
 
@@ -54,6 +54,10 @@ The agent then:
 3. Moves reference material into routers and guides.
 4. Checks that nothing was lost and that every link resolves.
 5. Reports the before and after sizes. Review the resulting documentation diff. Then continue asking for your normal project changes—the entry point tells the agent where to start.
+
+### Optional result sharing
+
+After the run, the agent may ask whether you want to tell the maintainer what changed. Nothing is collected automatically. If you opt in, it prepares a redacted, copyable report with the host, before/after sizes, approximate token change, validation result and usefulness. Review it yourself before choosing whether to submit it as a [GitHub issue](https://github.com/Asif2BD/AI-Coding-Token-Optimizer/issues/new?template=feedback.md), a ProSkills review or a ClawHub review. Never include source code, secrets, private paths, repository URLs or client information.
 
 **If your agent cannot open GitHub links:** copy the standalone instructions in [GITHUB-PROMPT.md](GITHUB-PROMPT.md) into the agent instead. You do not need to install a skill, use Git commands or create another repository merely to adopt the approach.
 
@@ -98,6 +102,7 @@ Review the diff; undo by reverting only the mapping changes. Never put secrets o
 - [Templates](references/templates.md): skeletons for the entry point, maps and area READMEs.
 - [Operations](references/operations.md): what the operations map must cover.
 - [Verification](references/verification.md): measurement, no-loss, link and stale-reference checks.
+- [Feedback](references/feedback.md): the optional, no-telemetry result-sharing handoff and redaction checklist.
 
 ## More by Asif2BD
 

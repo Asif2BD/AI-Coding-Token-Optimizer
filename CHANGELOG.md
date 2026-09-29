@@ -1,5 +1,12 @@
 # Changelog
 
+## v1.2.0 — 2026-09-29
+
+- Add an explicit, opt-in feedback handoff after each run.
+- Provide a redacted result template for before/after sizes, approximate token change, validation and usefulness.
+- Add GitHub issue-template guidance without collecting telemetry or uploading project data.
+- Explain how users can optionally leave feedback on GitHub, ProSkills or ClawHub.
+
 ## v1.1.0 — 2026-09-28
 
 - **Measure and slim the always-loaded entry point.** Record the bytes and estimated tokens of the always-loaded files. Keep the rules that bind every task, and move reference material verbatim into guides and routers. Report the before and after sizes.

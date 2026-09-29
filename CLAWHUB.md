@@ -1,6 +1,6 @@
 # AI Coding Token Optimizer — ClawHub description
 
-Version: 1.1.0
+Version: 1.2.0
 Slug: ai-coding-token-optimizer
 
 ## Stop making your agent rediscover your project
@@ -56,6 +56,10 @@ Preserve mandatory instructions and source code, and update the routers whenever
 ## Expectations
 
 The first mapping pass uses normal agent context. The always-loaded entry-point saving is measured and reported. Later tasks may also benefit from less repeated exploration, which is not measured. Host discovery of project instructions varies.
+
+## Optional feedback loop
+
+After a run, the skill may ask whether you want to tell the maintainer what changed. This is opt-in and manual: no project data, telemetry or automatic upload is involved. If you agree, the agent prepares a redacted report with host, before/after sizes, approximate token change, validation and usefulness. Review it before submitting through GitHub, ProSkills or ClawHub. Never share code, secrets, private paths, repository URLs or client information.
 
 ## Related projects
 
